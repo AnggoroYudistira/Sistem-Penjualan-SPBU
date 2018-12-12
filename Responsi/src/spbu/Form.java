@@ -7,6 +7,7 @@ package spbu;
 
 import Koneksi.koneksi;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -33,7 +34,7 @@ public class Form extends javax.swing.JFrame {
     
     public static Connection conn = new koneksi().connect();
     public void jenisbbm(){
-         String sql = "select * from jenisbbm";
+        String sql = "select * from jenisbbm";
         
         try {
             Statement stmt = conn.createStatement();
@@ -77,7 +78,7 @@ public class Form extends javax.swing.JFrame {
         Ltr = new javax.swing.JTextField();
         Kembali = new javax.swing.JTextField();
         Enter = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Cetak = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         Hrg = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -110,7 +111,12 @@ public class Form extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Cetak Nota");
+        Cetak.setText("Cetak Nota");
+        Cetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CetakActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Harga");
 
@@ -165,7 +171,7 @@ public class Form extends javax.swing.JFrame {
                         .addGap(60, 60, 60)
                         .addComponent(Enter)
                         .addGap(53, 53, 53)
-                        .addComponent(jButton2)))
+                        .addComponent(Cetak)))
                 .addGap(63, 63, 63)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
@@ -202,7 +208,7 @@ public class Form extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Enter)
-                    .addComponent(jButton2))
+                    .addComponent(Cetak))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(46, Short.MAX_VALUE)
@@ -214,16 +220,33 @@ public class Form extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void EnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnterActionPerformed
-        double byr = Double.parseDouble(Byr.getText());
-        double hrg = Double.parseDouble(Hrg.getText());
-        int bli = Integer.parseInt(Bli.getText());
-        double lt = byr/hrg;
-        DecimalFormat df = new DecimalFormat("#.##");
-        Ltr.setText(df.format(lt));
-        int total = (int)byr - bli;
-        Kembali.setText(Integer.toString(total));
-        pemb = pemb + 1;
-        tabel();
+        String query="INSERT INTO transaksi VALUES(?,?,?,?,?,?)";
+        
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            int harga = Integer.parseInt(Hrg.getText());
+            int liter = Integer.parseInt(Ltr.getText());
+            int totalHarga = harga*liter;
+            
+            stmt.setString(1, jenisbbm.getSelectedItem().toString());
+            stmt.setString(2, Hrg.getText());
+            stmt.setString(3, Ltr.getText());
+            stmt.setString(4, Integer.toString(totalHarga));
+            stmt.setString(5, Byr.getText());
+            stmt.setString(7, Kembali.getText());
+            stmt.executeUpdate();
+            double byr = Double.parseDouble(Byr.getText());
+            double hrg = Double.parseDouble(Hrg.getText());
+            int bli = Integer.parseInt(Bli.getText());
+            double lt = bli/hrg;
+            DecimalFormat df = new DecimalFormat("#.##");
+            Ltr.setText(df.format(lt));
+            int total = (int)byr - bli;
+            Kembali.setText(Integer.toString(total));
+            pemb = pemb + 1;
+            tabel();   
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_EnterActionPerformed
 
     private void jenisbbmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jenisbbmActionPerformed
@@ -244,6 +267,17 @@ public class Form extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, e.getMessage());
                 }
     }//GEN-LAST:event_jenisbbmActionPerformed
+
+    private void CetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CetakActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        Nota nt = new Nota();
+        nt.setVisible(true);
+        nt.txtJB.setText((String)jenisbbm.getSelectedItem());
+        nt.TxtHrg.setText(Hrg.getText());
+        nt.TxtLtr.setText(Ltr.getText());
+        nt.TxtTotal.setText(Bli.getText());
+    }//GEN-LAST:event_CetakActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,11 +317,11 @@ public class Form extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Bli;
     private javax.swing.JTextField Byr;
+    private javax.swing.JButton Cetak;
     private javax.swing.JButton Enter;
-    private javax.swing.JTextField Hrg;
+    public javax.swing.JTextField Hrg;
     private javax.swing.JTextField Kembali;
-    private javax.swing.JTextField Ltr;
-    private javax.swing.JButton jButton2;
+    public javax.swing.JTextField Ltr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -296,7 +330,7 @@ public class Form extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JComboBox<String> jenisbbm;
+    public javax.swing.JComboBox<String> jenisbbm;
     private javax.swing.JTable tabel;
     // End of variables declaration//GEN-END:variables
 }
