@@ -30,6 +30,7 @@ public class Form extends javax.swing.JFrame {
         initComponents();
         jenisbbm();
         Hrg.setEditable(false);
+   
     }
     
     public static Connection conn = new koneksi().connect();
@@ -74,6 +75,7 @@ public class Form extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "DATA GAGAL DISIMPAN"+e);
         }
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -237,15 +239,21 @@ public class Form extends javax.swing.JFrame {
         double byr = Double.parseDouble(Byr.getText());
         double hrg = Double.parseDouble(Hrg.getText());
         int bli = Integer.parseInt(Bli.getText());
-        double lt = bli/hrg;
-        DecimalFormat df = new DecimalFormat("#.##");
-        Ltr.setText(df.format(lt));
-        int total = (int)byr - bli;
-        Kembali.setText(Integer.toString(total));
-        pemb = pemb + 1;
-        tabel();        
-        simpan();
-        
+        if(byr<=bli)
+        {
+            JOptionPane.showMessageDialog(null, "Uang Anda Kurang");
+        }
+        else
+        {
+            double lt = bli/hrg;
+            DecimalFormat df = new DecimalFormat("#.##");
+            Ltr.setText(df.format(lt));
+            int total = (int)byr - bli;
+            Kembali.setText(Integer.toString(total));
+            pemb = pemb + 1;
+            tabel();        
+            simpan();
+        }
     }//GEN-LAST:event_EnterActionPerformed
 
     private void jenisbbmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jenisbbmActionPerformed

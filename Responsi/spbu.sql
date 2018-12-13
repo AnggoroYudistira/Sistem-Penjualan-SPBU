@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Nov 2018 pada 03.15
--- Versi server: 10.1.31-MariaDB
--- Versi PHP: 7.2.3
+-- Generation Time: Dec 13, 2018 at 02:52 AM
+-- Server version: 10.1.31-MariaDB
+-- PHP Version: 7.2.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jenisbbm`
+-- Table structure for table `jenisbbm`
 --
 
 CREATE TABLE `jenisbbm` (
@@ -34,7 +34,7 @@ CREATE TABLE `jenisbbm` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `jenisbbm`
+-- Dumping data for table `jenisbbm`
 --
 
 INSERT INTO `jenisbbm` (`JenisBBM`, `Harga`) VALUES
@@ -46,16 +46,16 @@ INSERT INTO `jenisbbm` (`JenisBBM`, `Harga`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `transaksi`
+-- Table structure for table `transaksi`
 --
 
 CREATE TABLE `transaksi` (
-  `Jenis_BBM` varchar(30) NOT NULL,
-  `Harga` int(11) NOT NULL,
-  `Total_Liter` int(11) NOT NULL,
-  `Harga_Total` int(11) NOT NULL,
-  `Uang_Bayar` int(11) NOT NULL,
-  `Uang_kembali` int(11) NOT NULL
+  `Id_JenisBBM` int(11) NOT NULL,
+  `Pembelian_ke` varchar(25) NOT NULL,
+  `Jenis_BBM` varchar(25) NOT NULL,
+  `Harga` varchar(25) NOT NULL,
+  `Liter` varchar(25) NOT NULL,
+  `Beli` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -63,16 +63,20 @@ CREATE TABLE `transaksi` (
 --
 
 --
--- Indeks untuk tabel `jenisbbm`
---
-ALTER TABLE `jenisbbm`
-  ADD PRIMARY KEY (`JenisBBM`);
-
---
--- Indeks untuk tabel `transaksi`
+-- Indexes for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`Jenis_BBM`);
+  ADD PRIMARY KEY (`Id_JenisBBM`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `Id_JenisBBM` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
